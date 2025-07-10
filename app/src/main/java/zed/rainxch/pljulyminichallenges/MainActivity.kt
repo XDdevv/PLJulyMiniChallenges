@@ -2,6 +2,7 @@ package zed.rainxch.pljulyminichallenges
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import zed.rainxch.pljulyminichallenges.bottom_nav_unread_badge.presentation.BottomNavUnreadBadgeScreenRoot
 import zed.rainxch.pljulyminichallenges.emoji_reaction_bubble.presentation.EmojiReactionBubbleScreenRoot
 import zed.rainxch.pljulyminichallenges.ui.theme.PLJulyMiniChallengesTheme
 
@@ -20,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PLJulyMiniChallengesTheme {
-                EmojiReactionBubbleScreenRoot()
+                BottomNavUnreadBadgeScreenRoot()
             }
         }
     }

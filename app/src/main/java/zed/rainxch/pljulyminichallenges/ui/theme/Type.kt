@@ -37,5 +37,6 @@ val Typography = Typography(
 
 val urbanistFontFamily = FontFamily(
     Font(R.font.urbanist_medium, FontWeight.Medium),
+    Font(R.font.urbanist_semi_bold, FontWeight.SemiBold),
     Font(R.font.urbanist_regular, FontWeight.Normal),
 )

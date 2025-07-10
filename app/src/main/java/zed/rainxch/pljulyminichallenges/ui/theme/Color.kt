@@ -27,3 +27,23 @@ object EmojiReactionBubbleColors {
     val blue12 = Color(0xff68C3FF).copy(alpha = .12f)
 
 }
+
+object BottomNavigationUnreadBadgeColors {
+    val background = Brush.linearGradient(
+        listOf(
+            Color(0xff06060A),
+            Color(0xff0F1318)
+        )
+    )
+
+    val onSurface = Color(0xffFFFFFF)
+    val surface30 = Color(0xff1F222A).copy(alpha = .3f)
+    val surface50 = Color(0xff1F222A).copy(alpha = .5f)
+    val onSurfaceVar = Color(0xff7F8491)
+    val surfaceAlt = Color(0xffFFFFFF)
+    val surfaceAlt30 = Color(0xffFFFFFF).copy(alpha = .3f)
+    val surfaceAlt15 = Color(0xffFFFFFF).copy(alpha = .15f)
+    val onSurfaceAlt = Color(0xff0F0F18)
+    val error = Color(0xffF83468)
+    val primary = Color(0xff75FABF)
+}
