@@ -47,3 +47,28 @@ object BottomNavigationUnreadBadgeColors {
     val error = Color(0xffF83468)
     val primary = Color(0xff75FABF)
 }
+
+object CollapsableChatThreadColors {
+    val background = Brush.linearGradient(
+        listOf(
+            Color(0xff06060A),
+            Color(0xff0F1318)
+        )
+    )
+
+    val surface50 = Color(0xff1F222A).copy(alpha = .5f)
+    val surfaceAlt30 = Color(0xffffffff).copy(alpha = .3f)
+
+    val onSurface = Color(0xffFFFFFF)
+    val onSurfaceVar = Color(0xffAFB2B9)
+    val onSurfaceAlt = Color(0xff0F0F18)
+
+    val primary = Color(0xff75FABF)
+    val yellow = Color(0xffffc368)
+    val blue = Color(0xff68C3FF)
+
+}
+
+fun Long.toColor(): Color {
+    return Color(this)
+}
