@@ -2,10 +2,10 @@
     <string name="app_name">PLJulyMiniChallenges</string>
 
     <!-- Main Post -->
-    <string name="main_post_subreddit">r/devjourney • 1 day ago</string>
+    <string name="main_post_subreddit">1 day ago</string>
     <string name="main_post_username">DreamSyntaxHiker</string>
     <string name="main_post_title">"I Tried to Build a Language-Learning App. It Didn\'t Go as Planned."</string>
-    <string name="main_post_category">Category: Product Reflection</string>
+    <string name="main_post_category">/ProductReflection</string>
     <string name="main_post_body">I spent 9 months building what I thought would be a simple app to help people learn new languages through short conversations. I poured my evenings and weekends into it, but the launch was… underwhelming.\n\nHere\'s what I learned about feature creep, marketing missteps, and chasing perfection instead of feedback.</string>
 
     <!-- Comment 1 -->

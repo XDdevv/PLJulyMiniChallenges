@@ -48,6 +48,36 @@ object BottomNavigationUnreadBadgeColors {
     val primary = Color(0xff75FABF)
 }
 
+object EmojiComposersColors {
+    val background = Brush.linearGradient(
+        listOf(
+            Color(0xff06060A),
+            Color(0xff0F1318)
+        )
+    )
+
+    val surfaceAlt15 = Color(
+        0xffffffff
+    ).copy(alpha = .15f)
+
+    val surface30 = Color(
+        0xff1F222A
+    ).copy(alpha = .3f)
+
+    val surface50 = Color(
+        0xff1F222A
+    ).copy(alpha = .5f)
+
+    val onSurface = Color(
+        0xffffffff
+    )
+
+    val blue = Color(
+        0xff68C3FF
+    )
+
+}
+
 object CollapsableChatThreadColors {
     val background = Brush.linearGradient(
         listOf(

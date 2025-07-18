@@ -7,5 +7,6 @@ data class Comment(
     val badge: String? = null,
     val title: String? = null,
     val body: String,
+    val indent : Int,
     val replies: List<Comment> = emptyList(),
 )
