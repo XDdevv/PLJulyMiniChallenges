@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import zed.rainxch.pljulyminichallenges.bottom_nav_unread_badge.presentation.BottomNavUnreadBadgeScreenRoot
 import zed.rainxch.pljulyminichallenges.collapsible_chat_thread.presentation.CollapsableChatThreadScreenRoot
+import zed.rainxch.pljulyminichallenges.emoji_composer.presentation.EmojiComposerScreenRoot
 import zed.rainxch.pljulyminichallenges.emoji_reaction_bubble.presentation.EmojiReactionBubbleScreenRoot
 import zed.rainxch.pljulyminichallenges.ui.theme.PLJulyMiniChallengesTheme
 
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PLJulyMiniChallengesTheme {
-                CollapsableChatThreadScreenRoot()
+                EmojiComposerScreenRoot()
             }
         }
     }
