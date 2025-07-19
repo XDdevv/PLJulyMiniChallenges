@@ -2,6 +2,7 @@ package zed.rainxch.pljulyminichallenges.collapsible_chat_thread.presentation.co
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,15 +24,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,11 +53,12 @@ import zed.rainxch.pljulyminichallenges.ui.theme.urbanistFontFamily
 @Composable
 fun CommentItem(
     comment: Comment,
-    onShowRepliesClick: () -> Unit,
-    indent: Int,
+    expandedCommentIds: List<String>,
+    onShowRepliesClick: (commendId: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val profilePictureColor = remember {
+
+    val profilePictureColor = remember(comment.id) {
         listOf(
             CollapsableChatThreadColors.primary,
             CollapsableChatThreadColors.yellow,
@@ -58,22 +66,23 @@ fun CommentItem(
         ).random()
     }
 
-    var isExpanded by remember { mutableStateOf(false) }
-    
+    var commentHeight by remember { mutableIntStateOf(0) }
+
+    val expanded = remember(expandedCommentIds) { comment.id in expandedCommentIds }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(start = indent * 20.dp)
+            .padding(start = comment.indent * 20.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Box(
                 modifier = Modifier
                     .size(28.dp)
-
                     .clip(CircleShape)
                     .border(
                         width = 1.dp,
@@ -84,7 +93,7 @@ fun CommentItem(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = remember(comment.username) { comment.username.take(1) },
+                    text = remember(comment.id) { comment.username.take(1) },
                     color = CollapsableChatThreadColors.onSurfaceAlt,
                     fontSize = 15.sp,
                     fontFamily = urbanistFontFamily,
@@ -92,7 +101,9 @@ fun CommentItem(
                 )
             }
 
-            Column {
+            Column(
+
+            ) {
                 Row(
                     modifier = Modifier
                         .padding(top = 8.dp),
@@ -129,13 +140,13 @@ fun CommentItem(
                             .wrapContentWidth()
                             .padding(bottom = 8.dp)
                             .clip(RoundedCornerShape(6.dp))
-                            .background(CollapsableChatThreadColors.surface50)
-                            .padding(vertical = 4.dp, horizontal = 6.dp),
+                            .background(profilePictureColor.copy(alpha = .12f))
+                            .padding(horizontal = 6.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = header,
-                            color = CollapsableChatThreadColors.onSurfaceVar,
+                            color = profilePictureColor,
                             fontFamily = urbanistFontFamily,
                             fontWeight = FontWeight.Medium,
                             fontSize = 10.sp,
@@ -146,16 +157,28 @@ fun CommentItem(
         }
 
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier
+                .drawBehind {
+                    drawRect(
+                        color = Color.White,
+                        size = Size(
+                            width = 1f,
+                            height = if (comment.replies.isNotEmpty()) size.height - 50f
+                            else size.height + 150f
+                        ),
+                    )
+                    drawRect(
+                        color = Color.White,
+                        size = Size(
+                            width = 64f,
+                            height = 4f
+                        ),
+                        topLeft = Offset(x = 0f, y = size.height - 50f)
+                    )
+                }
+                .padding(start = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            VerticalDivider(
-                modifier = Modifier
-                    .height(120.dp)
-                    .padding(horizontal = 14.dp),
-                thickness = 1.dp,
-                color = CollapsableChatThreadColors.surfaceAlt30
-            )
-
             Column {
                 comment.title?.let { title ->
                     Text(
@@ -180,25 +203,26 @@ fun CommentItem(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    HorizontalDivider(
-                        modifier = Modifier.width(14.dp),
-                        thickness = 1.dp,
-                        color = CollapsableChatThreadColors.surfaceAlt30
-                    )
 
                     if (comment.replies.isNotEmpty()) {
                         Row(
+                            modifier = Modifier.clickable(onClick = {
+                                onShowRepliesClick(comment.id)
+                            }),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             Icon(
-                                imageVector = ImageVector.vectorResource(R.drawable.ic_add_circle),
+                                imageVector = ImageVector.vectorResource(
+                                    id = if (expanded) R.drawable.ic_minus_circle
+                                    else R.drawable.ic_plus_circle
+                                ),
                                 contentDescription = null,
                                 tint = CollapsableChatThreadColors.onSurface
                             )
 
                             Text(
-                                text = "Show ${comment.replies.size} replies",
+                                text = "${if (expanded) "Hide" else "Show"} ${comment.replies.size} replies",
                                 fontFamily = urbanistFontFamily,
                                 fontWeight = FontWeight.Medium,
                                 color = CollapsableChatThreadColors.onSurface,
@@ -231,9 +255,13 @@ fun CommentItem(
             }
         }
 
-        if (comment.replies.isNotEmpty()) {
-            if (isExpanded) {
-                CommentItem()
+        if (comment.replies.isNotEmpty() && expanded) {
+            comment.replies.forEach { comment ->
+                CommentItem(
+                    comment = comment,
+                    expandedCommentIds = expandedCommentIds,
+                    onShowRepliesClick = onShowRepliesClick
+                )
             }
         }
     }
@@ -251,6 +279,7 @@ private fun CommentItemPreview() {
             title = "I Tried to Build a Language-Learning App. It Didn't Go as Planned.",
             body = "I spent 9 months building what I thought would be a simple app to help people learn new languages through short conversations. I poured my evenings and weekends into it, but the launch was... underwhelming.  \n" +
                     "Here's what I learned about feature creep, marketing missteps, and chasing perfection instead of feedback.",
+            indent = 0,
             replies = listOf(
                 Comment(
                     id = "",
@@ -259,10 +288,11 @@ private fun CommentItemPreview() {
                     badge = "/ProductReflection",
                     body = "I spent 9 months building what I thought would be a simple app to help people learn new languages through short conversations. I poured my evenings and weekends into it, but the launch was... underwhelming.  \n" +
                             "Here's what I learned about feature creep, marketing missteps, and chasing perfection instead of feedback.",
+                    indent = 1
                 )
             )
         ),
         onShowRepliesClick = {},
-        indent = 0
+        expandedCommentIds = listOf()
     )
 }
