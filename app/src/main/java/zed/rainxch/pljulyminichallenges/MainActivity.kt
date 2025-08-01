@@ -16,6 +16,7 @@ import zed.rainxch.pljulyminichallenges.bottom_nav_unread_badge.presentation.Bot
 import zed.rainxch.pljulyminichallenges.collapsible_chat_thread.presentation.CollapsableChatThreadScreenRoot
 import zed.rainxch.pljulyminichallenges.emoji_composer.presentation.EmojiComposerScreenRoot
 import zed.rainxch.pljulyminichallenges.emoji_reaction_bubble.presentation.EmojiReactionBubbleScreenRoot
+import zed.rainxch.pljulyminichallenges.message_card.presentation.MessageCardScreenRoot
 import zed.rainxch.pljulyminichallenges.ui.theme.PLJulyMiniChallengesTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PLJulyMiniChallengesTheme {
-                EmojiComposerScreenRoot()
+                MessageCardScreenRoot()
             }
         }
     }

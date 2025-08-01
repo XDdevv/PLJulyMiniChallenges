@@ -99,6 +99,23 @@ object CollapsableChatThreadColors {
 
 }
 
+object MessageCardColors {
+    val background = Brush.linearGradient(
+        listOf(
+            Color(0xff06060A),
+            Color(0xff0F1318)
+        )
+    )
+    val surface50 = Color(0xff1F222A).copy(alpha = .5f)
+    val surface30 = Color(0xff1F222A).copy(alpha = .3f)
+    val onSurface = Color(0xffffffff)
+    val onSurfaceVar = Color(0xffAFB2B9)
+    val onSurfaceAlt = Color(0xff0F0F18)
+    val surfaceAlt30 = Color(0xffFFFFFF).copy(alpha = .4f)
+    val blue = Color(0xff68C3FF)
+    val primary = Color(0xff75FABF)
+}
+
 fun Long.toColor(): Color {
     return Color(this)
 }
